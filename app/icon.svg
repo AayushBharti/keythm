@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <title>Keythm</title>
+  <style>
+    .sh { fill: #000; opacity: 0.08; }
+    .plate { fill: #c0c0c4; }
+    .accent { fill: #d47040; }
+    .dark { fill: #737373; }
+    .light { fill: #ededed; }
+    .hi { fill: #fff; }
+    @media (prefers-color-scheme: dark) {
+      .sh { opacity: 0.3; }
+      .plate { fill: #111114; }
+      .accent { fill: #e8965c; }
+      .dark { fill: #3a3a3a; }
+      .light { fill: #484850; }
+    }
+  </style>
+  <!-- Outer shadow -->
+  <rect class="sh" x="1" y="3" width="30" height="28" rx="5"/>
+  <!-- Housing plate -->
+  <rect class="plate" x="1" y="1" width="30" height="28" rx="5"/>
+  <!-- Keycap faces: accent / light / light / dark -->
+  <rect class="accent" x="3" y="3" width="12" height="10.5" rx="2.5"/>
+  <rect class="light" x="17" y="3" width="12" height="10.5" rx="2.5"/>
+  <rect class="light" x="3" y="15.5" width="12" height="10.5" rx="2.5"/>
+  <rect class="dark" x="17" y="15.5" width="12" height="10.5" rx="2.5"/>
+  <!-- Specular highlights -->
+  <rect class="hi" x="4.5" y="3.5" width="9" height="3" rx="1.5" opacity="0.28"/>
+  <rect class="hi" x="18.5" y="3.5" width="9" height="3" rx="1.5" opacity="0.2"/>
+  <rect class="hi" x="4.5" y="16" width="9" height="3" rx="1.5" opacity="0.2"/>
+  <rect class="hi" x="18.5" y="16" width="9" height="3" rx="1.5" opacity="0.12"/>
+</svg>
