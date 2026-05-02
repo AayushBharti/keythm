@@ -1,4 +1,4 @@
-/** Inline keycap-grid icon. */
+/** Inline keycap-grid icon that reads --primary, --kb-dark, --kb-light live. */
 export function KeythmLogo({
   className,
   size = 22,
@@ -25,46 +25,46 @@ export function KeythmLogo({
         x="1"
         y="3"
       />
-      {/* Housing plate */}
+      {/* Housing plate — neutral border color, distinct from keycaps */}
       <rect
-        fill="#E5E5E5"
         height="28"
         rx="5"
+        style={{ fill: "var(--border)" }}
         width="30"
         x="1"
         y="1"
       />
       {/* Accent keycap */}
       <rect
-        fill="#3B82F6"
         height="10.5"
         rx="2.5"
+        style={{ fill: "var(--primary)" }}
         width="12"
         x="3"
         y="3"
       />
       {/* Light keycaps */}
       <rect
-        fill="#F5F5F5"
         height="10.5"
         rx="2.5"
+        style={{ fill: "var(--kb-light, var(--secondary))" }}
         width="12"
         x="17"
         y="3"
       />
       <rect
-        fill="#F5F5F5"
         height="10.5"
         rx="2.5"
+        style={{ fill: "var(--kb-light, var(--secondary))" }}
         width="12"
         x="3"
         y="15.5"
       />
       {/* Dark keycap */}
       <rect
-        fill="#A3A3A3"
         height="10.5"
         rx="2.5"
+        style={{ fill: "var(--kb-dark, var(--muted))" }}
         width="12"
         x="17"
         y="15.5"
