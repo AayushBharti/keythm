@@ -121,11 +121,126 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: color-mix(
+      in oklch,
+      var(--kb-light) 20%,
+      var(--background)
+    );
+    @apply text-foreground;
+  }
+  .dark body {
+    background-color: color-mix(
+      in oklch,
+      var(--kb-dark) 25%,
+      var(--background)
+    );
   }
   html {
     @apply font-sans;
   }
+}
+
+/* ── Keyboard-theme colour schemes ───────────────────────────── */
+/* Three channels per theme from keyboard palette:
+   --primary / --ring  → accent keys (escape, enter) — buttons, cursor, active states
+   --kb-dark           → modifier keys — muted surfaces, secondary tones
+   --kb-light          → letter keys — body background tint, page atmosphere
+   --muted-foreground  → text readability tuned per theme */
+
+/* classic — light:#F5F5F5 dark:#737373 accent:#F57644 */
+:root[data-accent="classic"] {
+  --primary: oklch(0.63 0.19 42);
+  --ring: oklch(0.63 0.19 42);
+  --kb-dark: oklch(0.55 0.06 45);
+  --kb-light: oklch(0.85 0.08 45);
+  --muted: color-mix(in oklch, var(--kb-dark) 12%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="classic"] {
+  --primary: oklch(0.74 0.18 42);
+  --ring: oklch(0.74 0.18 42);
+  --kb-dark: oklch(0.3 0.06 45);
+  --kb-light: oklch(0.25 0.06 42);
+  --muted: color-mix(in oklch, var(--kb-dark) 40%, oklch(0.274 0.006 286));
+}
+
+/* mint — light:#EEEEEE dark:#447B82 accent:#86C8AC */
+:root[data-accent="mint"] {
+  --primary: oklch(0.58 0.14 175);
+  --ring: oklch(0.58 0.14 175);
+  --kb-dark: oklch(0.48 0.06 190);
+  --kb-light: oklch(0.95 0.02 175);
+  --muted: color-mix(in oklch, var(--kb-dark) 8%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="mint"] {
+  --primary: oklch(0.73 0.14 175);
+  --ring: oklch(0.73 0.14 175);
+  --kb-dark: oklch(0.3 0.04 185);
+  --kb-light: oklch(0.25 0.03 180);
+  --muted: color-mix(in oklch, var(--kb-dark) 30%, oklch(0.274 0.006 286));
+}
+
+/* royal — light:#324974 dark:#3A3B35 accent:#E4D440 (gold!) */
+:root[data-accent="royal"] {
+  --primary: oklch(0.55 0.14 85);
+  --ring: oklch(0.55 0.14 85);
+  --kb-dark: oklch(0.4 0.04 100);
+  --kb-light: oklch(0.42 0.1 250);
+  --muted: color-mix(in oklch, var(--kb-dark) 8%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="royal"] {
+  --primary: oklch(0.85 0.16 95);
+  --ring: oklch(0.85 0.16 95);
+  --kb-dark: oklch(0.25 0.02 100);
+  --kb-light: oklch(0.22 0.05 250);
+  --muted: color-mix(in oklch, var(--kb-dark) 30%, oklch(0.274 0.006 286));
+}
+
+/* dolch — light:#4F5E78 dark:#3E3B4C accent:#D73E42 (red!) */
+:root[data-accent="dolch"] {
+  --primary: oklch(0.57 0.2 25);
+  --ring: oklch(0.57 0.2 25);
+  --kb-dark: oklch(0.38 0.04 290);
+  --kb-light: oklch(0.48 0.06 265);
+  --muted: color-mix(in oklch, var(--kb-dark) 8%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="dolch"] {
+  --primary: oklch(0.68 0.2 25);
+  --ring: oklch(0.68 0.2 25);
+  --kb-dark: oklch(0.24 0.03 290);
+  --kb-light: oklch(0.22 0.04 270);
+  --muted: color-mix(in oklch, var(--kb-dark) 30%, oklch(0.274 0.006 286));
+}
+
+/* sand — light:#EFEFEF dark:#893D36 accent:#C94E41 */
+:root[data-accent="sand"] {
+  --primary: oklch(0.58 0.17 28);
+  --ring: oklch(0.58 0.17 28);
+  --kb-dark: oklch(0.45 0.1 20);
+  --kb-light: oklch(0.82 0.1 20);
+  --muted: color-mix(in oklch, var(--kb-dark) 12%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="sand"] {
+  --primary: oklch(0.72 0.17 28);
+  --ring: oklch(0.72 0.17 28);
+  --kb-dark: oklch(0.28 0.08 20);
+  --kb-light: oklch(0.22 0.07 25);
+  --muted: color-mix(in oklch, var(--kb-dark) 40%, oklch(0.274 0.006 286));
+}
+
+/* scarlet — light:#E4D7D7 dark:#D5868A accent:#E1E1E1 */
+:root[data-accent="scarlet"] {
+  --primary: oklch(0.58 0.16 350);
+  --ring: oklch(0.58 0.16 350);
+  --kb-dark: oklch(0.65 0.1 355);
+  --kb-light: oklch(0.85 0.08 345);
+  --muted: color-mix(in oklch, var(--kb-dark) 12%, oklch(0.967 0.001 286));
+}
+:root.dark[data-accent="scarlet"] {
+  --primary: oklch(0.73 0.17 350);
+  --ring: oklch(0.73 0.17 350);
+  --kb-dark: oklch(0.35 0.08 350);
+  --kb-light: oklch(0.22 0.06 345);
+  --muted: color-mix(in oklch, var(--kb-dark) 40%, oklch(0.274 0.006 286));
 }
 
 /* ── Typing font ──────────────────────────────────────────────── */
