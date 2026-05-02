@@ -1,6 +1,12 @@
 "use client";
 
-import { GearSix, Command } from "@phosphor-icons/react";
+import {
+  Command,
+  GearSix,
+  GithubLogo,
+  SpeakerHigh,
+  SpeakerSlash,
+} from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import {
@@ -15,6 +21,9 @@ import {
 } from "react";
 import { KeythmLogo } from "@/components/layout/keythm-logo";
 import { SettingsPanel } from "@/components/settings/settings-panel";
+import { useSettings } from "@/components/settings/settings-provider";
+import { DynamicFavicon } from "@/components/theme/dynamic-favicon";
+import { VisitCount } from "@/components/visit-count";
 import { cn } from "@/lib/utils";
 
 interface AppChromeContextValue {
@@ -73,6 +82,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
 
   return (
     <AppChromeContext.Provider value={value}>
+      <DynamicFavicon />
       <div className="flex min-h-dvh w-full flex-col">
         <SiteHeader />
         {children}
@@ -85,6 +95,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
 function SiteHeader() {
   const router = useRouter();
   const { setSettingsOpen, typingActive, homeLogoHandlerRef } = useAppChrome();
+  const { soundEnabled, setSoundEnabled } = useSettings();
 
   const dimHeader = typingActive;
 
@@ -144,8 +155,43 @@ function SiteHeader() {
           <KeythmLogo className="mb-1" size={17} />
         </button>
 
-        {/* Right — Settings */}
+        {/* Center — Visit counter (loads async, hidden until ready) */}
+        <div className="pointer-events-none absolute inset-x-0 hidden justify-center md:flex">
+          <VisitCount />
+        </div>
+
+        {/* Right — Audio, Settings, GitHub */}
         <div className="flex items-center gap-2">
+          {/* Audio toggle */}
+          <motion.button
+            aria-label={soundEnabled ? "Mute audio" : "Unmute audio"}
+            className={cn(
+              "flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-[13px] transition-colors duration-150",
+              soundEnabled
+                ? "text-muted-foreground hover:bg-foreground/[0.08] hover:text-foreground"
+                : "text-muted-foreground/35 hover:bg-foreground/[0.06] hover:text-muted-foreground"
+            )}
+            onClick={() => setSoundEnabled(!soundEnabled)}
+            type="button"
+            whileTap={{ scale: 0.97 }}
+          >
+            <motion.span
+              animate={{ scale: 1, opacity: 1 }}
+              className="inline-flex"
+              initial={{ scale: 0.6, opacity: 0 }}
+              key={String(soundEnabled)}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              {soundEnabled ? (
+                <SpeakerHigh size={15} weight="duotone" />
+              ) : (
+                <SpeakerSlash size={15} weight="duotone" />
+              )}
+            </motion.span>
+            <span className="hidden sm:inline">Audio</span>
+          </motion.button>
+
+          {/* Settings */}
           <motion.button
             aria-label="Settings"
             className="flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-[13px] text-muted-foreground transition-colors duration-150 hover:bg-foreground/[0.08] hover:text-foreground"
@@ -160,6 +206,18 @@ function SiteHeader() {
               <span>K</span>
             </kbd>
           </motion.button>
+
+          {/* GitHub — primary pill */}
+          <motion.a
+            className="flex items-center gap-2 rounded-full bg-foreground px-4 py-1.5 font-medium text-[13px] text-background"
+            href="https://github.com/aayushbharti/keythm"
+            rel="noopener noreferrer"
+            target="_blank"
+            whileTap={{ scale: 0.96 }}
+          >
+            <GithubLogo size={15} weight="duotone" />
+            <span className="hidden sm:inline">GitHub</span>
+          </motion.a>
         </div>
       </div>
     </motion.header>
