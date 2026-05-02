@@ -3,9 +3,13 @@
 import {
   ArrowCounterClockwise,
   ArrowRight,
+  Trophy,
 } from "@phosphor-icons/react";
 import { motion } from "motion/react";
+import { useEffect, useMemo, useRef } from "react";
 import { AnimatedNumber } from "@/components/ui/animated-number";
+import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
+import { saveIfPersonalBest } from "@/lib/personal-best";
 import type { ResultStats } from "@/lib/types";
 import { isInvalidTestResult } from "@/lib/validate-result";
 import {
@@ -45,7 +49,30 @@ export function ResultsScreen({
     wpmHistory,
   } = stats;
 
+  const confettiRef = useRef<ConfettiRef>(null);
   const invalid = isInvalidTestResult(stats);
+
+  const pb = useMemo(
+    () =>
+      invalid ? null : saveIfPersonalBest(mode, modeDetail, wpm, accuracy),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  useEffect(() => {
+    if (!invalid && wpm >= 100) {
+      const timer = setTimeout(() => {
+        confettiRef.current?.fire({
+          particleCount: 200,
+          spread: 120,
+          ticks: 400,
+          gravity: 0.6,
+          origin: { y: 0.3 },
+        });
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [invalid, wpm]);
 
   if (invalid) {
     return (
@@ -88,6 +115,15 @@ export function ResultsScreen({
 
   return (
     <div className="flex w-full flex-col gap-5 md:mx-auto md:max-w-5xl md:gap-6">
+      {wpm >= 70 && (
+        <Confetti
+          className="pointer-events-none fixed inset-0 z-50"
+          manualstart
+          ref={confettiRef}
+          style={{ width: "100vw", height: "100vh" }}
+        />
+      )}
+
       {/* ── Hero: WPM + Accuracy — the star moment ── */}
       <div className="flex items-end justify-center gap-5 pt-2 sm:gap-8 md:gap-12">
         {/* WPM */}
@@ -134,6 +170,28 @@ export function ResultsScreen({
         </div>
       </div>
 
+      {/* Personal best badge — springs in with overshoot */}
+      {pb?.isNewPb && (
+        <motion.div
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          className="flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.7, filter: "blur(6px)" }}
+          transition={{
+            delay: 0.4,
+            type: "spring",
+            stiffness: 300,
+            damping: 20,
+          }}
+        >
+          <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1">
+            <Trophy className="text-primary" size={13} weight="duotone" />
+            <span className="font-medium text-[11px] text-primary">
+              new personal best
+            </span>
+          </div>
+        </motion.div>
+      )}
+
       {/* ── Key stats — each cascades in individually ── */}
       <div className="flex items-center justify-center gap-8 md:gap-12">
         <motion.div
@@ -163,6 +221,24 @@ export function ResultsScreen({
             value={consistency}
           />
         </motion.div>
+
+        {pb && !pb.isNewPb && pb.previous && (
+          <>
+            <motion.div
+              animate={{ opacity: 1, scaleY: 1 }}
+              className="h-6 w-px bg-border"
+              initial={{ opacity: 0, scaleY: 0 }}
+              transition={{ delay: 0.5, duration: 0.3, ease }}
+            />
+            <motion.div
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+              transition={{ delay: 0.55, duration: 0.4, ease }}
+            >
+              <KeyStat animated label="best" value={pb.previous.wpm} />
+            </motion.div>
+          </>
+        )}
       </div>
 
       {/* ── Chart — clips open from top ── */}
