@@ -20,7 +20,20 @@ interface TypingTestProps {
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: orchestrator component
 export function TypingTest(props: TypingTestProps) {
-  const { liveStats } = useSettings();
+  const { liveStats, faahMode, ghostMode } = useSettings();
+  const faahAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const onWrongKey = useCallback(() => {
+    if (!faahMode) {
+      return;
+    }
+    if (!faahAudioRef.current) {
+      faahAudioRef.current = new Audio("/sounds/fahhhhh.mp3");
+    }
+    faahAudioRef.current.currentTime = 0;
+    // biome-ignore lint/complexity/noVoid: fire-and-forget promise
+    void faahAudioRef.current.play();
+  }, [faahMode]);
 
   const {
     mode,
@@ -64,7 +77,7 @@ export function TypingTest(props: TypingTestProps) {
     onNumbersToggle,
     onDifficultyToggle,
     onRestart,
-  } = useTypingTest(props);
+  } = useTypingTest({ ...props, onWrongKey });
 
   // Re-focus the hidden input on any keypress when it's blurred
   useEffect(() => {
@@ -235,6 +248,7 @@ export function TypingTest(props: TypingTestProps) {
               {words.map((word, wIdx) => {
                 const isActive = wIdx === wordIndex;
                 const isPast = wIdx < wordIndex;
+                const isFuture = !(isActive || isPast);
                 let displayInput = "";
                 if (isActive) {
                   displayInput = typed;
@@ -242,10 +256,19 @@ export function TypingTest(props: TypingTestProps) {
                   displayInput = wordInputs[wIdx] ?? "";
                 }
                 const hasError = isPast && wordInputs[wIdx] !== word;
+                const currentWordDone =
+                  typed.length >= (words[wordIndex]?.length ?? 0);
+                const isNextWord = wIdx === wordIndex + 1;
+                const dimmed =
+                  ghostMode &&
+                  isFocused &&
+                  isFuture &&
+                  !(currentWordDone && isNextWord);
 
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: word+index combo ensures uniqueness for duplicate words
                   <WordItem
+                    dimmed={dimmed}
                     displayInput={displayInput}
                     elemRef={isActive ? activeWordRef : undefined}
                     hasError={hasError}
