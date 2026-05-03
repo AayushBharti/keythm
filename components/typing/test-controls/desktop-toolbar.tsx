@@ -1,29 +1,63 @@
 "use client";
 
+import { At, Hash } from "@phosphor-icons/react";
 import { LayoutGroup } from "motion/react";
 import { cn } from "@/lib/utils";
 import {
   groupClass,
   MODES,
   Selector,
+  Sep,
   SubOptionStack,
+  Toggle,
 } from "./primitives";
 import type { TestControlsProps } from "./test-controls";
 
-/** Desktop inline toolbar. */
+/** Desktop inline three-group toolbar. */
 export function DesktopToolbar({
   mode,
   timeOption,
   wordOption,
   quoteLength,
+  punctuation,
+  numbers,
+  difficulty,
   onModeChange,
   onTimeOptionChange,
   onWordOptionChange,
   onQuoteLengthChange,
+  onPunctuationToggle,
+  onNumbersToggle,
+  onDifficultyToggle,
 }: TestControlsProps) {
   return (
     <LayoutGroup id="toolbar">
       <div className="flex items-center gap-2">
+        {/* Toggles */}
+        <div className={groupClass}>
+          <Toggle active={punctuation} onClick={onPunctuationToggle}>
+            <At size={13} weight="duotone" />
+            punctuation
+          </Toggle>
+          <Toggle active={numbers} onClick={onNumbersToggle}>
+            <Hash size={13} weight="duotone" />
+            numbers
+          </Toggle>
+          <Sep />
+          <Toggle
+            active={difficulty === "easy"}
+            onClick={() => onDifficultyToggle("easy")}
+          >
+            easy
+          </Toggle>
+          <Toggle
+            active={difficulty === "hard"}
+            onClick={() => onDifficultyToggle("hard")}
+          >
+            hard
+          </Toggle>
+        </div>
+
         {/* Mode selector */}
         <div className={groupClass}>
           {MODES.map(({ value, icon: Icon, label }) => (
