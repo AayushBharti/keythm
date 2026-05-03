@@ -16,6 +16,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Slider } from "@/components/ui/slider";
 import useMediaQuery from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { FontList } from "./font-picker";
@@ -38,8 +39,14 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
     setShowKeyboard,
     soundEnabled,
     setSoundEnabled,
+    soundVolume,
+    setSoundVolume,
     liveStats,
     setLiveStats,
+    faahMode,
+    setFaahMode,
+    ghostMode,
+    setGhostMode,
   } = useSettings();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -123,15 +130,30 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                 label="Sound"
                 onToggle={() => setSoundEnabled(!soundEnabled)}
               />
+              {soundEnabled && (
+                <VolumeSlider onChange={setSoundVolume} value={soundVolume} />
+              )}
             </Section>
 
-            {/* ── Test ── */}
-            <Section title="Test">
+            {/* ── Gameplay ── */}
+            <Section title="Gameplay">
               <Toggle
                 description="Show WPM and accuracy while typing"
                 enabled={liveStats}
                 label="Live stats"
                 onToggle={() => setLiveStats(!liveStats)}
+              />
+              <Toggle
+                description="Dim upcoming words for focus"
+                enabled={ghostMode}
+                label="Ghost mode"
+                onToggle={() => setGhostMode(!ghostMode)}
+              />
+              <Toggle
+                description="Sound on wrong keystrokes"
+                enabled={faahMode}
+                label="Faah mode"
+                onToggle={() => setFaahMode(!faahMode)}
               />
             </Section>
           </div>
@@ -279,5 +301,31 @@ function Toggle({
         />
       </div>
     </button>
+  );
+}
+
+function VolumeSlider({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex items-center gap-3 px-3 py-2">
+      <Slider
+        max={100}
+        min={0}
+        onValueChange={(v) => {
+          const arr = Array.isArray(v) ? v : [v];
+          onChange(arr[0] / 100);
+        }}
+        step={5}
+        value={[value * 100]}
+      />
+      <span className="w-8 text-right font-medium text-[11px] text-muted-foreground tabular-nums">
+        {Math.round(value * 100)}%
+      </span>
+    </div>
   );
 }
