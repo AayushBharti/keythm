@@ -17,7 +17,21 @@ export function DynamicFavicon() {
     if (!mounted) {
       return;
     }
-    syncKeythmFavicon();
+
+    const run = () => {
+      syncKeythmFavicon();
+      requestAnimationFrame(() => syncKeythmFavicon());
+    };
+
+    run();
+
+    const t1 = window.setTimeout(run, 0);
+    const t2 = window.setTimeout(run, 150);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [mounted, resolvedTheme]);
 
   return null;
