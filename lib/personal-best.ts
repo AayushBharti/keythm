@@ -1,4 +1,5 @@
-const PB_KEY = "kz-personal-best";
+// Key format: "kz-pb-{mode}-{detail}" e.g. "kz-pb-time-30", "kz-pb-quote-medium"
+const PB_PREFIX = "kz-pb-";
 
 export interface PersonalBest {
   accuracy: number;
@@ -6,11 +7,18 @@ export interface PersonalBest {
   wpm: number;
 }
 
-export function getPersonalBest(): PersonalBest | null {
+function pbKey(mode: string, detail: string): string {
+  return `${PB_PREFIX}${mode}-${detail}`;
+}
+
+export function getPersonalBest(
+  mode: string,
+  detail: string
+): PersonalBest | null {
   if (typeof window === "undefined") {
     return null;
   }
-  const raw = localStorage.getItem(PB_KEY);
+  const raw = localStorage.getItem(pbKey(mode, detail));
   if (!raw) {
     return null;
   }
@@ -22,15 +30,15 @@ export function getPersonalBest(): PersonalBest | null {
 }
 
 export function saveIfPersonalBest(
-  _mode: string,
-  _detail: string,
+  mode: string,
+  detail: string,
   wpm: number,
   accuracy: number
 ): { isNewPb: boolean; previous: PersonalBest | null } {
-  const prev = getPersonalBest();
+  const prev = getPersonalBest(mode, detail);
   if (!prev || wpm > prev.wpm) {
     localStorage.setItem(
-      PB_KEY,
+      pbKey(mode, detail),
       JSON.stringify({ wpm, accuracy, date: new Date().toISOString() })
     );
     return { isNewPb: true, previous: prev };
