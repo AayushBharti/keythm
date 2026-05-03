@@ -7,10 +7,10 @@
   <p align="center">
     A free typing test with realistic mechanical keyboard sounds
     <br />
-    <a href="https://keythm.vercel.app/"><strong>Try it live »</strong></a>
+    <a href="https://keythm.aayushbharti.in/"><strong>Try it live »</strong></a>
     <br />
     <br />
-    <a href="https://keythm.vercel.app/">Website</a>
+    <a href="https://keythm.aayushbharti.in/">Website</a>
     &middot;
     <a href="https://github.com/aayushbharti/keythm/issues">Issues</a>
     &middot;
