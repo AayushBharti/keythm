@@ -1,6 +1,6 @@
 "use client"
 
-import { Clock, Sliders } from "@phosphor-icons/react"
+import { At, Clock, Hash, Sliders } from "@phosphor-icons/react"
 import type { ReactNode } from "react"
 import {
   Drawer,
@@ -58,16 +58,22 @@ function DrawerChip({
   )
 }
 
-/** Mobile compact trigger bar + bottom drawer. */
+/** Mobile compact trigger bar + bottom drawer with full controls. */
 export function MobileToolbar({
   mode,
   timeOption,
   wordOption,
   quoteLength,
+  punctuation,
+  numbers,
+  difficulty,
   onModeChange,
   onTimeOptionChange,
   onWordOptionChange,
   onQuoteLengthChange,
+  onPunctuationToggle,
+  onNumbersToggle,
+  onDifficultyToggle,
 }: TestControlsProps) {
   const activeMode = MODES.find((m) => m.value === mode)
   const ActiveIcon = activeMode?.icon ?? Clock
@@ -86,6 +92,13 @@ export function MobileToolbar({
   }
   const subLabel = getSubLabel()
 
+  const activeModifiers = [
+    punctuation && "@",
+    numbers && "#",
+    difficulty === "easy" && "easy",
+    difficulty === "hard" && "hard",
+  ].filter(Boolean)
+
   return (
     <Drawer>
       {/* Compact trigger bar */}
@@ -99,6 +112,14 @@ export function MobileToolbar({
         <span className="text-primary">{activeMode?.label}</span>
         <Sep />
         <span className="text-primary">{subLabel}</span>
+        {activeModifiers.length > 0 && (
+          <>
+            <Sep />
+            <span className="text-muted-foreground/50">
+              {activeModifiers.join(" ")}
+            </span>
+          </>
+        )}
         <Sliders
           className="ml-1 text-muted-foreground/30"
           size={14}
@@ -106,7 +127,7 @@ export function MobileToolbar({
         />
       </DrawerTrigger>
 
-      {/* Bottom drawer with controls */}
+      {/* Bottom drawer with full controls */}
       <DrawerPopup className="mx-2! mb-2! flex max-h-[70dvh] flex-col rounded-2xl! [--bleed:0px]">
         <DrawerContent>
           <div className="flex items-center justify-between">
@@ -193,6 +214,38 @@ export function MobileToolbar({
                 </div>
               </DrawerSection>
             )}
+
+            {/* Modifiers */}
+            <DrawerSection title="Modifiers">
+              <div className="flex flex-wrap gap-1.5">
+                <DrawerChip active={punctuation} onClick={onPunctuationToggle}>
+                  <At size={14} weight="duotone" />
+                  punctuation
+                </DrawerChip>
+                <DrawerChip active={numbers} onClick={onNumbersToggle}>
+                  <Hash size={14} weight="duotone" />
+                  numbers
+                </DrawerChip>
+              </div>
+            </DrawerSection>
+
+            {/* Difficulty */}
+            <DrawerSection title="Difficulty">
+              <div className="flex flex-wrap gap-1.5">
+                <DrawerChip
+                  active={difficulty === "easy"}
+                  onClick={() => onDifficultyToggle("easy")}
+                >
+                  easy
+                </DrawerChip>
+                <DrawerChip
+                  active={difficulty === "hard"}
+                  onClick={() => onDifficultyToggle("hard")}
+                >
+                  hard
+                </DrawerChip>
+              </div>
+            </DrawerSection>
           </div>
         </DrawerContent>
       </DrawerPopup>
