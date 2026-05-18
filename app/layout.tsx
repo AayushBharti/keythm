@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "/opengraph.png",
-        width: 1440,
-        height: 1080,
+        url: "/og.jpeg",
+        width: 1500,
+        height: 1016,
         alt: "Keythm — typing test with mechanical keyboard sounds, on-screen keyboard, and real-time WPM tracking",
       },
     ],
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     title: "Keythm — Typing Test with Mechanical Keyboard Sounds",
     description:
       "A satisfying typing test with realistic mechanical keyboard sounds. Track your WPM and accuracy in real-time.",
-    images: ["/opengraph.png"],
+    images: ["/og.jpeg"],
   },
   robots: {
     index: true,
