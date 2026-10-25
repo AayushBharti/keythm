@@ -1,6 +1,10 @@
 <a name="readme-top"></a>
 
-<img width="1440" alt="Keythm — typing test with mechanical keyboard sounds" src=".github/images/img_main.png" />
+<a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">
+  <img width="1440" alt="Play the 30-second Keythm intro film (sound on)" src=".github/images/intro-film.png" />
+</a>
+
+<p align="center"><a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">▶ Watch the 30-second film</a> · sound on</p>
 
 <p align="center">
   <h3 align="center">Keythm</h3>
@@ -63,12 +67,6 @@
 ## About
 
 **Keythm** is a free online typing test with **realistic mechanical keyboard sounds** and real-time WPM tracking. Practice with timed tests, word counts, quotes, or zen mode — featuring an interactive on-screen keyboard, satisfying key sounds, and detailed accuracy stats.
-
-<a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">
-  <img width="1440" alt="Play the 30-second Keythm intro film (sound on)" src=".github/images/intro-film.png" />
-</a>
-
-<p align="center"><a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">▶ Watch the 30-second film</a> · sound on</p>
 
 ## ✨ Features
 
