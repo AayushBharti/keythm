@@ -1,10 +1,10 @@
 <a name="readme-top"></a>
 
-<a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">
-  <img width="1440" alt="Play the 30-second Keythm intro film (sound on)" src=".github/images/intro-film.png" />
+<a href="https://aayushbharti.in/projects/keythm/intro-5701bdb0.mp4">
+  <img width="1440" alt="Play the 36-second Keythm intro film (sound on)" src=".github/images/intro-film.png" />
 </a>
 
-<p align="center"><a href="https://aayushbharti.in/projects/keythm/intro-1415a326.mp4">▶ Watch the 30-second film</a> · sound on</p>
+<p align="center"><a href="https://aayushbharti.in/projects/keythm/intro-5701bdb0.mp4">▶ Watch the 36-second film</a> · sound on</p>
 
 <p align="center">
   <h3 align="center">Keythm</h3>
